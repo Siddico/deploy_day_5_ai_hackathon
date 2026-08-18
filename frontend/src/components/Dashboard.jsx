@@ -73,12 +73,6 @@ const Dashboard = ({ activeTab }) => {
                 <td><span className="badge-status badge-high">Indexed</span></td>
                 <td>145</td>
               </tr>
-              <tr>
-                <td style={{ fontWeight: 500, color: 'var(--primary)' }}>AHA_Risk_Factors_2024.pdf</td>
-                <td>Research Paper</td>
-                <td><span className="badge-status badge-high">Indexed</span></td>
-                <td>89</td>
-              </tr>
             </tbody>
           </table>
         </div>
