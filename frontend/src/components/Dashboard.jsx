@@ -167,7 +167,29 @@ const Dashboard = ({ activeTab }) => {
 
           {error && <div style={{ color: '#ef4444', marginTop: '1rem', background: 'rgba(239, 68, 68, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>{error}</div>}
 
-          {result && result.structured_output && (
+          {loading && (
+            <div className="animate-fade-in" style={{ marginTop: '2rem' }}>
+              <div className="response-card">
+                <div className="response-label">Recommendation</div>
+                <div className="skeleton skeleton-title"></div>
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text" style={{ width: '80%' }}></div>
+                
+                <div className="response-label" style={{ marginTop: '1.5rem' }}>Evidence (Excerpt)</div>
+                <div className="evidence-box">
+                  <div className="skeleton skeleton-text"></div>
+                  <div className="skeleton skeleton-text" style={{ width: '70%' }}></div>
+                </div>
+
+                <div className="response-label">Citations</div>
+                <div className="skeleton skeleton-text" style={{ height: '2rem', width: '100%', marginBottom: '0.5rem' }}></div>
+                <div className="skeleton skeleton-text" style={{ height: '2rem', width: '100%' }}></div>
+              </div>
+            </div>
+          )}
+
+          {!loading && result && result.structured_output && (
             <div className="animate-fade-in" style={{ marginTop: '2rem' }}>
               <div className="response-card">
                 <div className="response-label">Recommendation</div>
@@ -186,22 +208,24 @@ const Dashboard = ({ activeTab }) => {
 
                 <div className="response-label">Citations</div>
                 {result.structured_output.citations && result.structured_output.citations.length > 0 ? (
-                  <table className="data-table">
-                    <thead>
-                      <tr>
-                        <th>Document</th>
-                        <th>Section</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {result.structured_output.citations.map((cite, i) => (
-                        <tr key={i}>
-                          <td style={{ fontWeight: 500, color: 'var(--primary)' }}>{cite.document}</td>
-                          <td>{cite.section}</td>
+                  <div className="table-responsive">
+                    <table className="data-table">
+                      <thead>
+                        <tr>
+                          <th>Document</th>
+                          <th>Section</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {result.structured_output.citations.map((cite, i) => (
+                          <tr key={i}>
+                            <td style={{ fontWeight: 500, color: 'var(--primary)' }}>{cite.document}</td>
+                            <td>{cite.section}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
                   <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontStyle: 'italic', padding: '1rem', background: 'rgba(0,0,0,0.1)', borderRadius: '8px' }}>
                     No citations available (Refusal state).
@@ -222,7 +246,15 @@ const Dashboard = ({ activeTab }) => {
         {/* Structured Output JSON Box */}
         <div className="panel">
           <h2 className="panel-header">Structured Output (JSON)</h2>
-          {result ? (
+          {loading ? (
+            <div className="animate-fade-in">
+              <div className="skeleton skeleton-text" style={{ marginBottom: '1rem', width: '30%' }}></div>
+              <div className="skeleton skeleton-text" style={{ marginBottom: '1rem', width: '80%' }}></div>
+              <div className="skeleton skeleton-text" style={{ marginBottom: '1rem', width: '60%' }}></div>
+              <div className="skeleton skeleton-text" style={{ marginBottom: '1rem', width: '70%' }}></div>
+              <div className="skeleton skeleton-text" style={{ width: '40%' }}></div>
+            </div>
+          ) : result ? (
             <pre className="animate-fade-in">
               {JSON.stringify(result.structured_output, null, 2)}
             </pre>
@@ -284,7 +316,21 @@ const Dashboard = ({ activeTab }) => {
         <div className="panel">
           <h2 className="panel-header">Retrieved Evidence (Top-3 Chunks)</h2>
           <div style={{ maxHeight: '500px', overflowY: 'auto', paddingRight: '0.5rem' }}>
-            {result?.retrieved_chunks ? (
+            {loading ? (
+              <div className="animate-fade-in">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="chunk-item">
+                    <div className="chunk-header">
+                      <div className="skeleton" style={{ width: '60px', height: '24px', borderRadius: '6px' }}></div>
+                      <div className="skeleton" style={{ width: '120px', height: '20px' }}></div>
+                    </div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text" style={{ width: '70%' }}></div>
+                  </div>
+                ))}
+              </div>
+            ) : result?.retrieved_chunks ? (
               result.retrieved_chunks.slice(0, 3).map((chunk, i) => (
                 <div key={i} className="chunk-item animate-fade-in">
                   <div className="chunk-header">
