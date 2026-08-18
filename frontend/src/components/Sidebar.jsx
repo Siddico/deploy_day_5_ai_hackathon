@@ -1,7 +1,7 @@
 import React from 'react';
-import { MessageSquare, History, FileText, Info, Settings, LogOut, Shield } from 'lucide-react';
+import { MessageSquare, History, FileText, Info, Settings, LogOut, Brain, Sun, Moon } from 'lucide-react';
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
   const mainLinks = [
     { name: 'Ask Question', icon: <MessageSquare size={18} /> },
     { name: 'History', icon: <History size={18} /> },
@@ -17,8 +17,8 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <Shield size={24} color="var(--primary)" />
-        <span>Decision Support <span className="badge">LITE</span></span>
+        <Brain size={28} color="var(--primary)" />
+        <span style={{fontWeight: 700, letterSpacing: '0.5px'}}>Probably RAG</span>
       </div>
 
       <nav className="nav-links">
@@ -35,6 +35,11 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
       </nav>
 
       <div className="sidebar-footer">
+        <div className="nav-link" onClick={toggleTheme}>
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        </div>
+        
         {footerLinks.map(link => (
           <div 
             key={link.name}

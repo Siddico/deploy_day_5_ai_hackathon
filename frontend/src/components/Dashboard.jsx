@@ -34,16 +34,118 @@ const Dashboard = ({ activeTab }) => {
     }
   };
 
-  if (activeTab !== 'Ask Question') {
+  if (activeTab === 'History') {
     return (
-      <div className="panel animate-fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
-        <Activity size={48} color="var(--primary)" style={{ marginBottom: '1rem', opacity: 0.8 }} />
-        <h2 className="brand-font" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{activeTab} View</h2>
-        <p style={{ color: 'var(--text-muted)', maxWidth: '400px' }}>
-          This section is currently a placeholder for the {activeTab} functionality. You can switch back to "Ask Question" to use the main RAG pipeline.
-        </p>
+      <div className="dashboard-grid animate-fade-in" style={{ gridTemplateColumns: '1fr' }}>
+        <div className="panel">
+          <h2 className="panel-header">Recent Queries</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {['What are the global mortality statistics for CVD in 2023?', 'What is the WHOs 2024 PM2.5 target?', 'How does air pollution affect cardiovascular risk?'].map((q, i) => (
+              <div key={i} style={{ padding: '1rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: '8px', cursor: 'pointer' }}>
+                <p style={{ margin: 0, fontWeight: 500, color: 'var(--text-main)' }}>{q}</p>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>{2 + i} hours ago • Confidence: High</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
+  }
+
+  if (activeTab === 'Sources') {
+    return (
+      <div className="dashboard-grid animate-fade-in" style={{ gridTemplateColumns: '1fr' }}>
+        <div className="panel">
+          <h2 className="panel-header">Indexed Documents</h2>
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Chunks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={{ fontWeight: 500, color: 'var(--primary)' }}>MCO2-7-e70869.pdf</td>
+                <td>Clinical Guideline</td>
+                <td><span className="badge-status badge-high">Indexed</span></td>
+                <td>145</td>
+              </tr>
+              <tr>
+                <td style={{ fontWeight: 500, color: 'var(--primary)' }}>AHA_Risk_Factors_2024.pdf</td>
+                <td>Research Paper</td>
+                <td><span className="badge-status badge-high">Indexed</span></td>
+                <td>89</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'About') {
+    return (
+      <div className="dashboard-grid animate-fade-in" style={{ gridTemplateColumns: '1fr' }}>
+        <div className="panel">
+          <h2 className="panel-header">About Probably RAG</h2>
+          <p style={{ lineHeight: '1.6', color: 'var(--text-main)' }}>
+            <strong>Probably RAG</strong> is a next-generation clinical decision support prototype developed for the AI Clinical Decision Support Hackathon. 
+            It utilizes advanced Hybrid Search (BM25 + Dense Embeddings) and a rigorous 3-point refusal logic rubric to ensure that AI-generated recommendations are strictly grounded in authorized clinical guidelines.
+          </p>
+          <div style={{ marginTop: '2rem', display: 'flex', gap: '2rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1rem', color: 'var(--primary)', marginBottom: '0.5rem' }}>Core Technologies</h3>
+              <ul style={{ color: 'var(--text-muted)', paddingLeft: '1.2rem', lineHeight: '1.8' }}>
+                <li>LlamaParse for PDF extraction</li>
+                <li>Cohere Embeddings & Command-R-Plus</li>
+                <li>FastAPI Serverless Backend</li>
+                <li>React & Vite Frontend</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'Settings') {
+    return (
+      <div className="dashboard-grid animate-fade-in" style={{ gridTemplateColumns: '1fr' }}>
+        <div className="panel">
+          <h2 className="panel-header">System Settings</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
+              <div>
+                <div style={{ fontWeight: 500, color: 'var(--text-main)' }}>Strict Refusal Mode</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Enforce strict 3-point check on all prompts</div>
+              </div>
+              <div style={{ background: 'var(--primary)', padding: '0.25rem 1rem', borderRadius: '20px', color: '#fff', fontSize: '0.85rem' }}>Enabled</div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
+              <div>
+                <div style={{ fontWeight: 500, color: 'var(--text-main)' }}>Hybrid Search</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Combine keyword BM25 with semantic search</div>
+              </div>
+              <div style={{ background: 'var(--primary)', padding: '0.25rem 1rem', borderRadius: '20px', color: '#fff', fontSize: '0.85rem' }}>Enabled</div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
+              <div>
+                <div style={{ fontWeight: 500, color: 'var(--text-main)' }}>Response Temperature</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>LLM creativity (Current: 0.1)</div>
+              </div>
+              <input type="range" min="0" max="1" step="0.1" defaultValue="0.1" disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab !== 'Ask Question') {
+    return null;
   }
 
   return (
