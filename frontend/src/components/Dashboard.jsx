@@ -23,8 +23,9 @@ const Dashboard = () => {
     setError('');
     
     try {
-      // For local testing vs production:
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      // In Vercel, both frontend and backend are on the same domain, so we can use a relative path
+      // Local dev can still override with VITE_API_URL if needed
+      const apiUrl = import.meta.env.VITE_API_URL || '';
       const res = await axios.post(`${apiUrl}/api/query`, { query });
       setResult(res.data);
     } catch (err) {
