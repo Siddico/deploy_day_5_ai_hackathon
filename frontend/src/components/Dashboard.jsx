@@ -95,7 +95,6 @@ const Dashboard = ({ activeTab }) => {
                       <tr>
                         <th>Document</th>
                         <th>Section</th>
-                        <th>Page</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -103,7 +102,6 @@ const Dashboard = ({ activeTab }) => {
                         <tr key={i}>
                           <td style={{ fontWeight: 500, color: 'var(--primary)' }}>{cite.document}</td>
                           <td>{cite.section}</td>
-                          <td>{cite.page}</td>
                         </tr>
                       ))}
                     </tbody>

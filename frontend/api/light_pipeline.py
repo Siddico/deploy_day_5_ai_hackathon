@@ -81,9 +81,10 @@ class CohereGenerator:
     def generate(self, query: str, retrieved_chunks: List[Dict]) -> str:
         context = ""
         for i, chunk in enumerate(retrieved_chunks):
+            doc_name = chunk['metadata'].get('document', f'Source {i+1}')
             sec = chunk['metadata'].get('section_path', chunk['metadata'].get('section', ''))
-            sec_display = sec if sec else 'General Content'
-            context += f"--- Source {i+1} (Section: {sec_display}) ---\n"
+            sec_display = sec if sec and sec.lower() != 'general' else 'General Content'
+            context += f"--- Document: {doc_name} (Section: {sec_display}) ---\n"
             context += f"{chunk['text']}\n\n"
 
         system_prompt = f"""You are an AI Clinical Decision Support Assistant.
@@ -110,9 +111,9 @@ Respond with a JSON object strictly adhering to the following schema:
   "evidence": "Excerpt of evidence supporting the recommendation. Leave empty if refusing.",
   "citations": [
     {
-      "document": "Must be exactly 'Source X' matching the context source number.",
+      "document": "The exact Document name provided in the context (e.g. MCO2-7.pdf).",
       "section": "The exact Section name provided in the context.",
-      "page": "Page number if available, else N/A"
+      "page": "Not available, output 'N/A'"
     }
   ],
   "confidence": "high, medium, low, or None (if refusing)"
