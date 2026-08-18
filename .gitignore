@@ -1,0 +1,14 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Backend
+backend/__pycache__/
+backend/.env
+.venv/
+venv/
+*.pyc
+
+# Note: We are explicitly NOT ignoring the `medical_rag` folder because 
+# we need it to cache the ChromaDB index for Hugging Face Spaces!
