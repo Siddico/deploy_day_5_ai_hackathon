@@ -111,7 +111,7 @@ Respond with a JSON object strictly adhering to the following schema:
   "evidence": "Excerpt of evidence supporting the recommendation. Leave empty if refusing.",
   "citations": [
     {
-      "document": "The exact Document name provided in the context (e.g. MCO2-7.pdf).",
+      "document": "The exact file name that comes after 'Document:' in the context separator (e.g. MCO2-7-e70869.pdf). DO NOT write 'Source 1'.",
       "section": "The exact Section name provided in the context.",
       "page": "Not available, output 'N/A'"
     }
