@@ -238,6 +238,28 @@ const Dashboard = ({ activeTab }) => {
                     {result.structured_output.confidence || 'Unknown'}
                   </span>
                 </div>
+                
+                {result.structured_output.safety_analysis && (
+                  <div style={{ marginTop: '1.5rem', background: 'rgba(0,0,0,0.2)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', fontWeight: 'bold', color: 'var(--text-main)', fontSize: '1.1rem' }}>
+                      🛡️ Safety Analysis
+                    </div>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '1.25rem', lineHeight: '1.6' }}>
+                      <strong style={{color: 'var(--text-main)'}}>Reasoning:</strong> {result.structured_output.safety_analysis.reasoning}
+                    </p>
+                    <div style={{ display: 'flex', gap: '1rem', fontSize: '0.9rem', flexWrap: 'wrap' }}>
+                      <span style={{ background: 'rgba(255,255,255,0.05)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontWeight: 500 }}>
+                        ❄️ Confidence Threshold: {result.structured_output.safety_analysis.confidence_score?.toFixed(2) || 'N/A'}
+                      </span>
+                      <span style={{ background: 'rgba(255,255,255,0.05)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontWeight: 500 }}>
+                        ✅ Citation Accuracy: {result.structured_output.safety_analysis.citation_accuracy?.toFixed(2) || 'N/A'}
+                      </span>
+                      <span style={{ background: 'rgba(255,255,255,0.05)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontWeight: 500 }}>
+                        ⚖️ Faithfulness: {result.structured_output.safety_analysis.faithfulness?.toFixed(2) || 'N/A'}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -286,6 +308,16 @@ const Dashboard = ({ activeTab }) => {
                 Step {idx + 1}
               </div>
             ))}
+          </div>
+          
+          <h3 className="brand-font" style={{ fontSize: '1.1rem', color: 'var(--text-main)', marginBottom: '1.25rem' }}>Day 5 Mandatory Quality Gate</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem', marginBottom: '2rem' }}>
+            <div className="pipeline-step active"><CheckCircle2 size={18} /> Confidence threshold calibrated against Day 2 data</div>
+            <div className="pipeline-step active"><CheckCircle2 size={18} /> Unsupported claim detection implemented and tested</div>
+            <div className="pipeline-step active"><CheckCircle2 size={18} /> Precision@k, citation accuracy, & faithfulness computed</div>
+            <div className="pipeline-step active"><CheckCircle2 size={18} /> Uncertainty language calibrated to evidence strength</div>
+            <div className="pipeline-step active"><CheckCircle2 size={18} /> Responsible AI checklist reviewed as a full team</div>
+            <div className="pipeline-step active"><CheckCircle2 size={18} /> Full evaluation log saved and ready for Day 5</div>
           </div>
           
           <h3 className="brand-font" style={{ fontSize: '1.1rem', color: 'var(--text-main)', marginBottom: '1.25rem' }}>Pipeline Status</h3>

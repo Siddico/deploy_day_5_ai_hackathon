@@ -142,7 +142,13 @@ def run_query(request: QueryRequest):
                 "recommendation": clean_text,
                 "evidence": "",
                 "citations": [],
-                "confidence": "Unknown (Failed to parse JSON)"
+                "confidence": "Unknown (Failed to parse JSON)",
+                "safety_analysis": {
+                    "reasoning": "Failed to parse JSON from LLM.",
+                    "confidence_score": 0.0,
+                    "citation_accuracy": 0.0,
+                    "faithfulness": 0.0
+                }
             }
             
         return {
