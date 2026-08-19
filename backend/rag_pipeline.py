@@ -295,7 +295,7 @@ Your primary directive is patient safety and strict adherence to the provided cl
 """
         
         json_prompt = """
-Respond with a JSON object strictly adhering to the following schema:
+Respond with a JSON object strictly adhering to the following schema. YOU MUST INCLUDE THE `safety_analysis` BLOCK.
 {
   "recommendation": "The main recommendation using calibrated uncertainty language, or refusal message for unsupported claims",
   "evidence": "Excerpt of evidence supporting the recommendation, or empty if refused",
@@ -320,7 +320,8 @@ Respond with a JSON object strictly adhering to the following schema:
                 message=query + "\n\n" + json_prompt,
                 preamble=system_prompt,
                 model=self.model_name,
-                temperature=0.1
+                temperature=0.1,
+                response_format={"type": "json_object"}
             )
             return response.text
         except Exception as e:
